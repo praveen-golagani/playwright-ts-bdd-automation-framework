@@ -1,4 +1,4 @@
-import { AfterAll, BeforeAll, Before,After } from "@cucumber/cucumber";
+import { AfterAll, BeforeAll, Before, After } from "@cucumber/cucumber";
 import { Browser, chromium } from "playwright/test";
 import { pageFixture } from "./browserContextFixture";
 
@@ -23,7 +23,7 @@ Before(async () => {
 });
 
 //Runs after each scenario
-After(async ()=>{
+After(async () => {
     await pageFixture.page.close();
     await browser.close();
 })
