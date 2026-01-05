@@ -33,7 +33,7 @@ Then('I should be presented with a successful contact us submission message', as
 
 Then('I should be presented with a unsuccessful contact us submission message', async () => {
     const actInvalidText = await pageFixture.page.locator("body").textContent();
-    expect(actInvalidText).toMatch(/Error: (all fields are required|Invalid email address6)/);
+    expect(actInvalidText).toMatch(/Error: (all fields are required|Invalid email address)/);
 
 });
 
@@ -76,3 +76,21 @@ When('I enter a random email address', async () => {
     const randomEMail = faker.internet.email();
     await pageFixture.page.locator("//input[@name='email']").fill(randomEMail);
 });
+
+//scenario outlines
+
+When('I type a first name {string} and a last Name {string}', async(firstName:string,lastName:string)=>{
+    await pageFixture.page.locator("//input[@name='first_name']").fill(firstName);
+    await pageFixture.page.locator("//input[@name='last_name']").fill(lastName);
+    
+});
+
+When("I enter a email address {string} and a comment {string}", async(emailAddress:string,comment:string)=>{
+    await pageFixture.page.locator("//input[@name='email']").fill(emailAddress);
+    await pageFixture.page.locator("//textarea[@name='message']").fill(comment);
+    await pageFixture.page.pause();
+});
+
+// Then("I should be presented with a header text {string}",async(message:string)=>{
+
+// });
