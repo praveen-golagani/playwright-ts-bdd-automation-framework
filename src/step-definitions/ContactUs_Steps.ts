@@ -1,7 +1,7 @@
 import { Then, When } from "@cucumber/cucumber";
 import { pageFixture } from "./hooks/browserContextFixture";
 import { test, expect } from '@playwright/test';
-import {faker} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 
 
@@ -63,7 +63,7 @@ When('I type a comment as {string} use {int} rule to remember', async (comText: 
 
 When('I type a random first name', async () => {
     const randomFirstName = faker.person.firstName();
-     await pageFixture.page.locator("//input[@name='first_name']").fill(randomFirstName);
+    await pageFixture.page.locator("//input[@name='first_name']").fill(randomFirstName);
 });
 
 When('I type a random last name', async () => {
@@ -79,18 +79,28 @@ When('I enter a random email address', async () => {
 
 //scenario outlines
 
-When('I type a first name {string} and a last Name {string}', async(firstName:string,lastName:string)=>{
+When('I type a first name {string} and a last Name {string}', async (firstName: string, lastName: string) => {
     await pageFixture.page.locator("//input[@name='first_name']").fill(firstName);
     await pageFixture.page.locator("//input[@name='last_name']").fill(lastName);
-    
+
 });
 
-When('I enter a email address {string} and a comment {string}', async(emailAddress:string,comment:string)=>{
+When('I enter a email address {string} and a comment {string}', async (emailAddress: string, comment: string) => {
     await pageFixture.page.locator("//input[@name='email']").fill(emailAddress);
     await pageFixture.page.locator("//textarea[@name='message']").fill(comment);
     //await pageFixture.page.pause();
 });
 
-//  Then("I should be presented with a header text {string}",async(message:string)=>{
-
-//  });
+Then('I should be presented with a header text {string}', async (message: string) => {
+    await pageFixture.page.waitForSelector("//h1 | //body",{state:'visible'});
+    const allElements = await pageFixture.page.locator("//h1 | //body").elementHandles();
+    let myElementText = '';
+    for (let element of allElements){
+        let text = await element.innerText();
+        if(text.includes(message)){
+            myElementText = text;
+            break;
+        }
+    }
+    expect(myElementText).toContain(message);
+});
