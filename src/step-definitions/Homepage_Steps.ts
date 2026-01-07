@@ -16,6 +16,11 @@ When('I click on the contact us button', async () => {
 
 });
 
+When('I click on login portal button',async()=>{
+    const loginPortal_Button = pageFixture.page.locator('a#login-portal h1');
+    await loginPortal_Button.click();
+})
+
 When('I switch to the new browser tab', async () => {
     pageFixture.page = await pageFixture.context.waitForEvent("page"); // reinitialize the page as per new tab opened
     //retrive all open pages array
