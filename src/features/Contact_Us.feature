@@ -1,3 +1,4 @@
+@regression @contact-us
 Feature: webdriveruniversity.com - Contact Us Page
     Background: Pre conditions
         Given I navigate to webdriveruniversity homepage
@@ -36,6 +37,7 @@ Feature: webdriveruniversity.com - Contact Us Page
         And I click on the submit button
         Then I should be presented with a successful contact us submission message
 
+    @smoke
     Scenario Outline: Validate Contact Us Page
         And I type a first name '<firstName>' and a last Name '<lastName>'
         And I enter a email address '<emailAddress>' and a comment '<comment>'
