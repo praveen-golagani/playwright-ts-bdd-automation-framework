@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cucumberWithTS": "cucumber-js src/features/*.feature --require-module ts-node/register --require src/step-definitions/**/**/*.ts --require src/utils/cucumber-timeout.ts  --tags @smoke",
+    "precucumber":"rimraf reports && mkdir reports",
     "cucumber": "npx cucumber-js && ts-node ./src/index.ts"
   },
   "keywords": [],
@@ -16,6 +17,7 @@
     "@faker-js/faker": "^10.2.0",
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.3",
+    "rimraf": "^6.1.2",
     "ts-node": "^10.9.2"
   }
 }
