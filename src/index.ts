@@ -1,5 +1,12 @@
 import { exec } from "node:child_process";
 import { error } from "node:console";
+import dotenv from 'dotenv';
+
+dotenv.config({ path: './env/.env' });
+
+// setting retry value from env var or default to '0' OR '1'
+const parallelValue = process.env.PARALLEL || '1';
+const retryValue = process.env.RETRY || '0';
 
 // Defina a common command for running cucumber tests
 const common = `./src/features/*.feature \
@@ -8,7 +15,9 @@ const common = `./src/features/*.feature \
 --require src/utils/cucumber-timeout.ts \
 -f json:./reports/report.json \
 --format html:./reports/report.html \
---tags "not @ignore"`;
+--parallel ${parallelValue} \
+--retry ${retryValue}`;
+
 
 //Define an interface for profiles object 
 //It defines an interface where each key is a string and its value is also a string
@@ -19,10 +28,11 @@ interface ProfileCommands {
 //Define a command strings for different test profiles - consider it as passing diff tags for smoke/regression
 //mention tags here
 const profiles: ProfileCommands = {
-    smoke: `${common} --tags "@smoke"`,
-    regression: `${common} --tags "@regression"`,
-    login: `${common} --tags "@login"`,
-    contactUs: `${common} --tags "@contact-us"`,
+    contactUs: `${common} --tags "@contact-us and not @ignore"`,
+    login: `${common} --tags "@login and not @ignore"`,
+    smoke: `${common} --tags "@smoke and not @ignore"`,
+    regression: `${common} --tags "@regression and not @ignore"`,
+
 }
 
 //Get the third command-line argument and assign it to the profile  - like smoke, regression 

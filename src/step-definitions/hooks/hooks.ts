@@ -1,6 +1,7 @@
 import { AfterAll, BeforeAll, Before, After, Status } from "@cucumber/cucumber";
 import { Browser, BrowserType, chromium, firefox, webkit } from "playwright/test";
 import { pageFixture } from "./browserContextFixture";
+import { setGlobalSettings } from "../../utils/playwright-timeouts";
 
 //load env variables from .env file
 import { config as loadEnv } from "dotenv";
@@ -47,6 +48,7 @@ async function initializePage(): Promise<void> {
     });
 
     pageFixture.page = await pageFixture.context.newPage();
+    setGlobalSettings(pageFixture.page);
 }
 
 

@@ -1,3 +1,9 @@
 import { setDefaultTimeout } from "@cucumber/cucumber";
-// increase default timeout
-setDefaultTimeout(30000);// 30*1000 its 30 sec
+
+import { config as loadEnv } from "dotenv";
+const env = loadEnv({ path: './env/.env' });
+
+const customTimeout = parseInt(env.parsed?.CUCUMBER_CUSTOM_TIMEOUT || '60000');
+
+// increase default timeout - must be higher that playwright timeouts to see playwright timeout errors
+setDefaultTimeout(customTimeout);

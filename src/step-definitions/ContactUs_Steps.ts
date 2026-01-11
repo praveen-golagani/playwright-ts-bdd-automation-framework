@@ -2,10 +2,13 @@ import { Then, When } from "@cucumber/cucumber";
 import { pageFixture } from "./hooks/browserContextFixture";
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
+import { CucumberWorld } from "./world/CucumberWorld";
+import logger from "../../logger/logger";
 
 
 
-When('I type a first name', async () => {
+When('I type a first name', async function(this:CucumberWorld) {
+    logger.info(`Base url stored in cucumber world : ${this.getUrl()}`)
     await pageFixture.page.locator("//input[@name='first_name']").fill("Praveen");
 });
 
@@ -61,22 +64,30 @@ When('I type a comment as {string} use {int} rule to remember', async (comText: 
 
 //random data - faker
 
-When('I type a random first name', async () => {
+When('I type a random first name', async function(this: CucumberWorld){
     const randomFirstName = faker.person.firstName();
+    this.setFirstName(randomFirstName);
     await pageFixture.page.locator("//input[@name='first_name']").fill(randomFirstName);
 });
 
-When('I type a random last name', async () => {
+When('I type a random last name', async function(this: CucumberWorld) {
     const randomLastName = faker.person.lastName();
+    this.setLastName(randomLastName);
     await pageFixture.page.locator("//input[@name='last_name']").fill(randomLastName);
 
 });
 
-When('I enter a random email address', async () => {
+When('I enter a random email address', async function(this: CucumberWorld) {
     const randomEMail = faker.internet.email();
+    this.setEmailAddress(randomEMail);
     await pageFixture.page.locator("//input[@name='email']").fill(randomEMail);
 });
 
+When('I type a random comment', async function(this:CucumberWorld) {
+    await pageFixture.page.locator("//textarea[@name='message']").
+    fill(`Please Contact help Desk - Thank you !! \n  ${this.getFirstName()} ${this.getLastName()} \n ${this.getEmailAddress()}`);
+    //await pageFixture.page.pause();
+});
 //scenario outlines
 
 When('I type a first name {string} and a last Name {string}', async (firstName: string, lastName: string) => {

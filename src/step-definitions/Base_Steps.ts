@@ -1,9 +1,6 @@
 import { When, Given } from "@cucumber/cucumber";
 import { pageFixture } from "./hooks/browserContextFixture";
-
-//load env variables from .env file
-import { config as loadEnv } from "dotenv";
-const env = loadEnv({ path: './env/.env' });
+import { env } from "../utils/playwright-timeouts";
 
 //create a configuration object for easy access to env variables
 const config = {
