@@ -25,7 +25,7 @@ Feature: webdriveruniversity.com - Contact Us Page
         And I type a first name "Praveen test"
         And I type a last name  "QA India"
         And I enter an email address "test@testmail.com"
-        And I type a comment as "hello testers" use 147 rule to remember
+        And I type a comment "hello testers"
         And I click on the submit button
         Then I should be presented with a successful contact us submission message
     

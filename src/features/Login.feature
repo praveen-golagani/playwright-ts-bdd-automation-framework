@@ -16,8 +16,8 @@ Feature: webdriveruniversity.com - Login Page
 
         Examples:
             | userName    | password     | expectedAlertText    |
-            | webdriver   | webdriver123 | validation succeeded |
-            | coverdriver | cricket      | validation failed    |
+            | webdriver   | webdriver123 | validation succeeded5 |
+            | coverdriver | cricket      | validation failed 5   |
 
         @smoke  @ignore
         Examples:

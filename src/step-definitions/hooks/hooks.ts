@@ -2,6 +2,8 @@ import { AfterAll, BeforeAll, Before, After, Status } from "@cucumber/cucumber";
 import { Browser, BrowserType, chromium, firefox, webkit } from "playwright/test";
 import { pageFixture } from "./browserContextFixture";
 import { setGlobalSettings } from "../../utils/playwright-timeouts";
+import { PageManager } from "../../page-objects/base/PageManager";
+
 
 //load env variables from .env file
 import { config as loadEnv } from "dotenv";
@@ -10,7 +12,7 @@ const env = loadEnv({ path: './env/.env' });
 //create a configuration object for easy access to env variables
 const config = {
     headless: env.parsed?.HEADLESS === 'true',
-    browser: env.parsed?.UI_AUTOMATION_BROWSER || 'chromium',
+    browser: process.env.BROWSER_CHOICE || env.parsed?.UI_AUTOMATION_BROWSER || 'chromium',
     fullScreen: env.parsed?.FULL_SCREEN === 'true',
 };
 
@@ -63,11 +65,18 @@ AfterAll(async () => {
 });
 
 //before each scenario
-Before(async () => {
+Before(async function () {
     try {
         browserInstance = await initalizeBrowserContext(config.browser);
         console.log(`Browser context initialized for: ${config.browser}`)
         await initializePage();
+
+        this.pageManager = new PageManager();
+        this.basePage = this.pageManager.createBasePage();
+        this.homePage = this.pageManager.createHomePage();
+        this.contactUsPage = this.pageManager.createContactUsPage();
+        this.loginPage = this.pageManager.createLoginPage();
+
     } catch (error) {
         console.error('💣💥Browser context initialization failed : ', error);
     }
