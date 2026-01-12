@@ -1,2 +1,2 @@
-# Playwright_Ts_CucumberBDD_Project1
+# playwright-ts-bdd-automation-framework
 This repo is contains playwright - typescript with cucumber bdd framework.
